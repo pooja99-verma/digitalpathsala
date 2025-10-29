@@ -26,56 +26,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Future<void> _register() async {
-  //   if (!_formKey.currentState!.validate()) return;
-  //
-  //   setState(() => _isLoading = true);
-  //
-  //   try {
-  //     // ✅ Create user in Firebase Auth
-  //     UserCredential userCredential =
-  //     await _auth.createUserWithEmailAndPassword(
-  //       email: _emailController.text.trim(),
-  //       password: _passwordController.text.trim(),
-  //     );
-  //
-  //     // ✅ Save additional user info in Firestore
-  //     await _firestore.collection('users').doc(userCredential.user!.uid).set({
-  //       'name': _nameController.text.trim(),
-  //       'phone': _phoneController.text.trim(),
-  //       'dob': _dobController.text.trim(),
-  //       'class': selectedClass,
-  //       'email': _emailController.text.trim(),
-  //       'createdAt': FieldValue.serverTimestamp(),
-  //     });
-  //
-  //     if (!mounted) return;
-  //
-  //     // ✅ Show success message
-  //     _showSnackBar("Registration successful! Please login.");
-  //
-  //     // ✅ Navigate to Login Screen
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (_) => const LoginScreen(role: '',)),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     String errorMsg = 'Something went wrong';
-  //     if (e.code == 'email-already-in-use') {
-  //       errorMsg = 'This email is already registered';
-  //     } else if (e.code == 'weak-password') {
-  //       errorMsg = 'Password should be at least 6 characters';
-  //     }
-  //     _showSnackBar(errorMsg);
-  //   } catch (e) {
-  //     _showSnackBar('Error: $e');
-  //   }
-  //
-  //   if (mounted) {
-  //     setState(() => _isLoading = false);
-  //   }
-  // }
-
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
 

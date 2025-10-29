@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'attendence_screen.dart';
+import 'attendance_screen.dart';
 import 'home_screen.dart';
 import 'notes_screen.dart';
 import 'fees_screen.dart';

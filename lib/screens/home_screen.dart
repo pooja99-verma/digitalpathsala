@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'attendence_screen.dart';
+import 'attendance_screen.dart';
 import 'notes_screen.dart';
 import 'fees_screen.dart';
 
@@ -106,6 +106,7 @@ class HomeScreen extends StatelessWidget {
                     color: Colors.redAccent,
                     screen: null, // You can add profile screen later
                   ),
+
                 ],
               ),
             ),
@@ -153,4 +154,5 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
 }

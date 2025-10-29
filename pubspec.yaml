@@ -23,6 +23,9 @@ dependencies:
   # Date formatting
   intl: ^0.18.1
 
+  # CSV support
+  csv: ^6.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -35,9 +38,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/teacherphoto.jpeg
+    - assets/students.csv
 
 # Configuration for launcher icon
 flutter_icons:
   android: true
   ios: true
   image_path: "assets/app_icon.jpeg"
+
+
