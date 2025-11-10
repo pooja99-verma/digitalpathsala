@@ -2,10 +2,13 @@
 import 'package:digital_pathsala/screens/class_selection.dart';
 import 'package:digital_pathsala/screens/register_screen.dart';
 import 'package:digital_pathsala/screens/role_selection_screen.dart';
+import 'package:digital_pathsala/screens/studentsscreens/%20student_dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'admin_dashboard.dart';
+
 
 class LoginScreen extends StatefulWidget {
   final String role; // "student" or "admin"
@@ -22,66 +25,57 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
   bool _obscurePassword = true;
 
-  ////need to uncomment later
-  // void _login() async {
-  //   String email = _emailController.text.trim();
-  //   String password = _passwordController.text.trim();
-  //
-  //
-  //   if (email.isEmpty || password.isEmpty) {
-  //     _showSnackBar("Please enter both email and password");
-  //     return;
-  //   }
-  //
-  //   setState(() => _isLoading = true);
-  //
-  //   try {
-  //     await _auth.signInWithEmailAndPassword(email: email, password: password);
-  //
-  //     // Admin and student logic
-  //     if (widget.role == "admin" &&
-  //         email == 'digitalpathsalasitapur@gmail.com') {
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (_) => const AdminDashboardScreen()),
-  //       );
-  //
-  //     } else if (widget.role == "student" &&
-  //         email != 'digitalpathsalasitapur@gmail.com') {
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (_) => const ClassSelectionPage()),
-  //       );
-  //     } else {
-  //       _showSnackBar("Invalid login for selected role");
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     String message = "Login failed";
-  //     if (e.code == 'user-not-found') {
-  //       message = "No account found for this email.";
-  //     } else if (e.code == 'wrong-password') {
-  //       message = "Incorrect password.";
-  //     }
-  //     _showSnackBar(message);
-  //   } catch (e) {
-  //     _showSnackBar("An error occurred: ${e.toString()}");
-  //   }
-  //
-  //   setState(() => _isLoading = false);
-  // }
 
-  void _login() {
-    if (widget.role == "admin") {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const AdminDashboardScreen()),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const ClassSelectionPage()),
-      );
+
+
+  void _login() async {
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      _showSnackBar("Please enter both email and password");
+      return;
     }
+
+    setState(() => _isLoading = true);
+
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+
+      // ✅ Save role in SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('user_role', widget.role);
+
+      if (widget.role == "admin" && email == 'digitalpathsalasitapur@gmail.com') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const AdminDashboard()),
+          //AdminDashboardScreen()),
+        );
+      } else if (widget.role == "student" && email != 'digitalpathsalasitapur@gmail.com') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) =>
+          //const ClassSelectionPage()),
+          StudentDashboardScreen(className: '9')),
+         // HomeScreen(selectedClass: '', studentUid: '',)),
+        );
+      } else {
+        _showSnackBar("Invalid login for selected role");
+      }
+    } on FirebaseAuthException catch (e) {
+      String message = "Login failed";
+      if (e.code == 'user-not-found') {
+        message = "No account found for this email.";
+      } else if (e.code == 'wrong-password') {
+        message = "Incorrect password.";
+      }
+      _showSnackBar(message);
+    } catch (e) {
+      _showSnackBar("An error occurred: ${e.toString()}");
+    }
+
+    setState(() => _isLoading = false);
   }
 
 

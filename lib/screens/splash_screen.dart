@@ -1,7 +1,9 @@
 import 'package:digital_pathsala/screens/role_selection_screen.dart';
+import 'package:digital_pathsala/screens/studentsscreens/%20student_dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'admin_dashboard.dart';
 import 'login_screen.dart';
 import 'class_selection.dart';
 import 'onboarding_screen.dart';
@@ -20,17 +22,50 @@ class _SplashScreenState extends State<SplashScreen> {
     _checkLoginStatus();
   }
 
+  // void _checkLoginStatus() async {
+  //   await Future.delayed(const Duration(seconds: 3)); // Splash duration
+  //   final prefs = await SharedPreferences.getInstance();
+  //   bool onboardingSeen = prefs.getBool('onboarding_seen') ?? false;
+  //   User? user = FirebaseAuth.instance.currentUser;
+  //
+  //   if (user != null) {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (_) => const ClassSelectionPage()),
+  //     );
+  //   } else if (!onboardingSeen) {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+  //     );
+  //   } else {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (_) => const RoleSelectionScreen()),
+  //     );
+  //   }
+  // }
+
   void _checkLoginStatus() async {
-    await Future.delayed(const Duration(seconds: 3)); // Splash duration
+    await Future.delayed(const Duration(seconds: 3));
     final prefs = await SharedPreferences.getInstance();
     bool onboardingSeen = prefs.getBool('onboarding_seen') ?? false;
+    String? userRole = prefs.getString('user_role');
     User? user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const ClassSelectionPage()),
-      );
+    if (user != null && userRole != null) {
+      if (userRole == 'admin') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const AdminDashboard()),
+          //AdminDashboardScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const StudentDashboardScreen(className: '',)),
+        );
+      }
     } else if (!onboardingSeen) {
       Navigator.pushReplacement(
         context,

@@ -16,6 +16,8 @@ dependencies:
   shared_preferences: ^2.2.2
   flutter_spinkit: ^5.2.0
 
+
+
   # UI & utilities
   cupertino_icons: ^1.0.6
   provider: ^6.1.2
@@ -25,6 +27,9 @@ dependencies:
 
   # CSV support
   csv: ^6.0.0
+  firebase_storage: ^12.4.10
+  file_picker: ^10.3.3
+  url_launcher: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -34,11 +39,20 @@ dev_dependencies:
   # Add flutter_launcher_icons
   flutter_launcher_icons: ^0.10.0
 
+
 flutter:
   uses-material-design: true
   assets:
     - assets/teacherphoto.jpeg
     - assets/students.csv
+    - assets/students_with_email_password.csv
+    - assets/9th_class.csv
+    - assets/10th_class.csv
+    - assets/left11thclass_students.csv
+    - assets/Class_11_Students.csv
+    - assets/left12thclass_students.csv
+    - assets/Class_12_Students.csv
+
 
 # Configuration for launcher icon
 flutter_icons:

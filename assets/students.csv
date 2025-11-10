@@ -1,17 +1,124 @@
-uid,name,classId,subjects
-s1,Aarav Sharma,class9,"[""math9"",""science9"",""english9""]"
-s2,Ananya Verma,class9,"[""math9"",""science9"",""english9""]"
-s3,Rohan Patel,class9,"[""math9"",""science9"",""english9""]"
-s4,Meera Nair,class10,"[""math10"",""science10"",""sst10"",""english10""]"
-s5,Devansh Singh,class10,"[""math10"",""science10"",""sst10"",""english10""]"
-s6,Isha Gupta,class10,"[""math10"",""science10"",""sst10"",""english10""]"
-s7,Karan Mehta,class11PCM,"[""physics11"",""chemistry11"",""math11""]"
-s8,Tanvi Sharma,class11PCM,"[""physics11"",""chemistry11"",""math11""]"
-s9,Vedant Joshi,class11PCB,"[""physics11"",""chemistry11"",""biology11""]"
-s10,Sneha Patel,class11PCB,"[""physics11"",""chemistry11"",""biology11""]"
-s11,Raj Malhotra,class12PCM,"[""physics12"",""chemistry12"",""math12""]"
-s12,Aditi Singh,class12PCB,"[""physics12"",""chemistry12"",""biology12""]"
-s13,Harshit Jain,jeeBatch,"[""physicsJEE"",""chemistryJEE"",""mathJEE""]"
-s14,Nisha Kumari,jeeBatch,"[""physicsJEE"",""chemistryJEE"",""mathJEE""]"
-s15,Priya Sinha,neetBatch,"[""physicsNEET"",""chemistryNEET"",""biologyNEET""]"
-s16,Aditya Rao,neetBatch,"[""physicsNEET"",""chemistryNEET"",""biologyNEET""]"
+uid,name,classId,subjects,notes,attendance
+,Vaibhav,class12Commerce,['accounts12'],,false
+,Riyansh,class12Commerce,['accounts12'],,false
+,Satvik,class12Commerce,"['accounts12', 'economics12']",,false
+,Utkrisht,class12Commerce,['accounts12'],,false
+,Rasmil,class12Commerce,['economics12'],,false
+,Shraddha,class12Commerce,"['accounts12', 'economics12']",,false
+,Kajal,class12Commerce,"['accounts12', 'economics12']",,false
+,Navya,class12Commerce,"['accounts12', 'economics12']",,false
+,Anuj,class11Commerce,"['accounts11', 'economics11']",,false
+,Ayush,class11Commerce,"['accounts11', 'economics11']",,false
+,Ishika,class11Commerce,"['accounts11', 'economics11', 'math11']",,false
+,Hardik,class11Commerce,"['accounts11', 'economics11']",,false
+,Arush,class11Commerce,['accounts11'],,false
+,Tejasvi,class11Commerce,['accounts11'],,false
+,Naman,class11Commerce,['accounts11'],,false
+,Ajay Kumar,class11Commerce,['accounts11'],,false
+,Aarohi,class,[],,false
+,Vipul,class,[],,false
+,Ahana,class9,"['math9', 'science9', 'english9']",,false
+,Aham pandey,class9,"['math9', 'science9', 'english9']",,false
+,Saumy,class9,"['math9', 'science9', 'english9']",,false
+,Arun Kumar,class9,"['math9', 'science9', 'english9']",,false
+,Yuvraj,class9,"['math9', 'science9', 'english9']",,false
+,Aman Yadav,class9,"['math9', 'science9', 'english9']",,false
+,Shrishti,class9,"['math9', 'science9', 'english9']",,false
+,Ayush,class9,"['math9', 'science9', 'english9']",,false
+,Divyanshu,class9,"['math9', 'science9', 'english9']",,false
+,Golu,class9,"['math9', 'science9', 'english9']",,false
+,Abhinav,class9,"['math9', 'science9', 'english9']",,false
+,Preeti,class9,"['math9', 'science9', 'english9']",,false
+,Akshat pandey,class9,"['math9', 'science9', 'english9']",,false
+,Mahi,class9,"['math9', 'science9', 'english9']",,false
+,Humaira,class9,"['math9', 'science9', 'english9']",,false
+,Anugat,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+,Abhay,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+,Suryansh,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+,Devansh,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+,Aryan,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+ZF4YGJBBg4cffxxse1HnxVnHs5M2,Prakhar,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+6WaYfN0bTEbSSbS7w500WfxXCBL2,Ayush,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+ebddTTrfdaYOK1JcTHtEmNluTA83,Aachman,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+kZdfYm3ojPNMxaKrajLdOv0f8yh1,Navya,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+LOKAUhmDZcXfKcoR4GURjQh5zw02,Chahat,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+bO10Ap6euyMZWa1iFOAe7rwGv1f2,Drashya,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+8ANch395PePiHEof5lxziiHenYR2,Rishabh,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+Rgizc9YXVpRKsV53mSzKqLTL1L33,Om Sharma,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+16O9Cc5ELBgxwFJaN4NF04IFPHp1,Yash,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+FbrswKjpRjZHHhAGNqAmEkZfzer2,Hitesh,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+rhqjjhuiMPcyTpXRoNCdoukfLMD2,Hammad,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+PVdbWD1rqDUVAgt0YkIvquFXTBW2,Priyanjali,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+9HhgORZkHOZLxI6Bgj4Purybihb2,Vivek,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+n7kIQd4JQxNIK9v9KZpApycC7S93,Prachi,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+vkOw1YKnWHTEcNQ4E7ki3lThMLj2,Tasha,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+9SYhsZdTiRaMbEQTZxcMcjUjewM2,Yashi,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+,Yash,class10,"['math10', 'science10', 'sst10', 'english10']",,false
+,Gungun,classPCM,[],,false
+,Agraj,classPCM,[],,false
+,Mazhar,classPCb,[],,false
+,Akshat,classPCM,[],,false
+,Vishwas,classPC,[],,false
+,Ansh,classPC,[],,false
+,Gaurav,classPCB,[],,false
+,Garv Lala,classPC,[],,false
+,Vartika,classPC,[],,false
+,Isha,classPC,[],,false
+,Suryansh,classPC,[],,false
+,Ajendra,classPC,[],,false
+,Ujjwal,classP,[],,false
+,Vishal Mishra,classP,[],,false
+,Manu Singh,classP,[],,false
+,Naimish 1,classPC,[],,false
+,Kaseem,classPC,[],,false
+,Satyam,classP,[],,false
+,Shivam,classPCB,[],,false
+,Naitik Pandey,classPC,[],,false
+,Aditya,classPC,[],,false
+,Ayushi Pandey,classPC,[],,false
+,Aastha,classPCM,[],,false
+,Naimish 2,classP,[],,false
+,Anukalp,classM,[],,false
+,Arohi,classPC,[],,false
+,Naina,classPC,[],,false
+,Tejas,classP,[],,false
+,Nikhil,classP,[],,false
+,Darshita,classP,[],,false
+,Aadya,classP,[],,false
+,Mayank,classP,[],,false
+,Nidhi,classP,[],,false
+,Aparna,classPC,[],,false
+,Anshika,classPM,[],,false
+,Adarsh Verma,classP,[],,false
+,Pawan,classP,[],,false
+,Shivani,classC,[],,false
+,Akshita,classC,[],,false
+,Anya,classC,[],,false
+,Shivendra,classP,[],,false
+,Deepak,classP,[],,false
+,Abhinav,classC,[],,false
+,Aryan Kanaujiya,classP,[],,false
+UHZiAZEBmkd6UO7sI2bBBxeawfh1,Utkarsh Singh,class11,['biology11'],,false
+x6krAj3NNOe05GPWCfkNmQZ32Wk2,Avneesh,class11,['biology11'],,false
+UV3AGU7H2sY0One1j2OSpK6wlOZ2,Krishna,class11,['biology11'],,false
+zHyIm2WnDRXar57VnYBhdsGU3cF3,Ankit,class11,['biology11'],,false
+abx8EDBgTKYJ31Ux27A4atPRcUF2,Anshu,class11,['biology11'],,false
+evHDcWCsuafOjd0GcBkXngub9Yj2,Priyanjali Pal,class11,['biology11'],,false
+U0vcSfP3R0fDkafM2os8t9J3EBs2,Areeba gazi,class11,['biology11'],,false
+bF0veKC4fChxcT57hDndoKhXbof2,Astha,class11,['biology11'],,false
+WOMyI2hNwKTew6mMWwB7K84z5Xt2,Harendra,class11,['biology11'],,false
+8cVlrKcVbkg7vLJ66nHDydh621C2,Satyam,class11,['biology11'],,false
+73fZEHQIambqrFxeWWETcgSrxGR2,Sneha,class11,['biology11'],,false
+a3CopGzSXwc9JJOmiTo6jqU4H142,Siddhrath Raj,class12,['biology12'],,false
+LG3ZSJa6CRVNTiWs6AeznIMaxAb2,Harshit Tiwari,class12,['biology12'],,false
+EgcT9aAvtRUQlP4qoHMYs6FtIRf2,Anay,class12,['biology12'],,false
+kVECl5kG3oawWkmL0wOaaceBJAA3,Zeeshan Khan,class12,['biology12'],,false
+LZcBVzcBeES5vlwBn0mJjkiZQVq2,Ashutosh Mishra,class12,['biology12'],,false
+2uTGRkPMj8O8UlXP6YKLTxfzpnh1,Siddharth Mishra,class12,['biology12'],,false
+hbGk03S4hQRKczJn29zHwL0hbZ02,Arshad,class12,['biology12'],,false
+rnkYGEZO7DesWePy6xoKaDL10LN2,Naved,class12,['biology12'],,false
+tmPdnR7sstPcWTWzZEUW29GrxWd2,Ansh,class12,['biology12'],,false
+8pNuXXgjOdUZwAzxWqdtsDqw6d42,Divesh Yadav,class12,['biology12'],,false
+xnOFoNUDnEc9XTbZ65Bh6hD9WWU2,Naman,class12,['biology12'],,false
+CzCVJedxGFOn5YsJq2pCcuyhPkJ2,Aniket,class12,['biology12'],,false
+nFAcFc1uHRV2mqOijESrOFprenJ2,Aviral,class12,['biology12'],,false
