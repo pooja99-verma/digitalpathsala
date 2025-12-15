@@ -181,6 +181,23 @@ class _UploadFeesScreenState extends State<UploadFeesScreen> {
     _initializeControllers();
   }
 
+  // void _initializeControllers() {
+  //   subjectControllers.clear();
+  //   monthlyController.clear();
+  //   allSubjectsController.clear();
+  //
+  //   if (selectedClass == '9th') {
+  //     monthlyController.text = '1200';
+  //   } else if (selectedClass == '10th') {
+  //     monthlyController.text = '1400';
+  //   } else if (selectedClass == '11th' || selectedClass == '12th') {
+  //     subjectControllers['Physics'] = TextEditingController(text: selectedClass == '11th' ? '800' : '900');
+  //     subjectControllers['Chemistry'] = TextEditingController(text: selectedClass == '11th' ? '800' : '900');
+  //     subjectControllers['Maths'] = TextEditingController(text: selectedClass == '11th' ? '800' : '900');
+  //
+  //     allSubjectsController.text = selectedClass == '11th' ? '2100' : '2400';
+  //   }
+  // }
   void _initializeControllers() {
     subjectControllers.clear();
     monthlyController.clear();
@@ -191,12 +208,26 @@ class _UploadFeesScreenState extends State<UploadFeesScreen> {
     } else if (selectedClass == '10th') {
       monthlyController.text = '1400';
     } else if (selectedClass == '11th' || selectedClass == '12th') {
-      subjectControllers['Physics'] = TextEditingController(text: selectedClass == '11th' ? '800' : '900');
-      subjectControllers['Chemistry'] = TextEditingController(text: selectedClass == '11th' ? '800' : '900');
-      subjectControllers['Maths'] = TextEditingController(text: selectedClass == '11th' ? '800' : '900');
-      allSubjectsController.text = selectedClass == '11th' ? '2100' : '2400';
+      subjectControllers['Physics'] =
+          TextEditingController(text: selectedClass == '11th' ? '800' : '900');
+      subjectControllers['Chemistry'] =
+          TextEditingController(text: selectedClass == '11th' ? '800' : '900');
+      subjectControllers['Maths'] =
+          TextEditingController(text: selectedClass == '11th' ? '800' : '900');
+
+      // ✅ Add missing subjects for Class 12th
+      if (selectedClass == '12th') {
+        subjectControllers['Biology'] = TextEditingController(text: '900');
+        subjectControllers['Accounts'] = TextEditingController(text: '1000');
+        subjectControllers['Business'] = TextEditingController(text: '700');
+        subjectControllers['Economics'] = TextEditingController(text: '700');
+      }
+
+      allSubjectsController.text =
+      selectedClass == '11th' ? '2100' : '2400';
     }
   }
+
 
   Future<void> uploadFees() async {
     try {

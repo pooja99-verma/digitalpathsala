@@ -1,3 +1,248 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter/material.dart';
+// import 'package:intl/intl.dart';
+//
+// class AttendanceScreen extends StatefulWidget {
+//   const AttendanceScreen({super.key});
+//
+//   @override
+//   State<AttendanceScreen> createState() => _AttendanceScreenState();
+// }
+//
+// class _AttendanceScreenState extends State<AttendanceScreen> {
+//   final firestore = FirebaseFirestore.instance;
+//   final Map<String, bool> attendance = {};
+//   bool showStudents = false;
+//   String selectedClass = '9';
+//   String selectedSubject = '';
+//
+//   int totalPresent = 0;
+//   int totalAbsent = 0;
+//
+//   Future<void> _saveAttendance(String date) async {
+//     final batch = firestore.batch();
+//
+//     totalPresent = 0;
+//     totalAbsent = 0;
+//
+//     attendance.forEach((uid, present) {
+//       final studentRef = firestore.collection('students').doc(uid);
+//       final attendanceRecord = {
+//         'date': date,
+//         'status': present ? 'Present' : 'Absent',
+//       };
+//
+//       // Add subject only for 11th and 12th
+//       if (selectedClass == '11th' || selectedClass == '12th') {
+//         attendanceRecord['subject'] = selectedSubject;
+//       }
+//
+//       batch.update(studentRef, {
+//         'attendance': FieldValue.arrayUnion([attendanceRecord])
+//       });
+//
+//       if (present) {
+//         totalPresent++;
+//       } else {
+//         totalAbsent++;
+//       }
+//     });
+//
+//     await batch.commit();
+//
+//     showDialog(
+//       context: context,
+//       builder: (_) => AlertDialog(
+//         title: const Text("Attendance Summary"),
+//         content: Text(
+//           "✅ Saved for Class $selectedClass\n"
+//               "${(selectedClass == '11th' || selectedClass == '12th') ? "Subject: $selectedSubject\n" : ""}"
+//               "\nTotal Students: ${attendance.length}\n"
+//               "Present: $totalPresent\n"
+//               "Absent: $totalAbsent",
+//         ),
+//         actions: [
+//           TextButton(
+//             onPressed: () => Navigator.pop(context),
+//             child: const Text("OK"),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+//
+//     return Scaffold(
+//       backgroundColor: Colors.black,
+//       appBar: AppBar(
+//         title: const Text(
+//           "Attendance",
+//           style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+//         ),
+//         backgroundColor: Colors.black,
+//         centerTitle: true,
+//       ),
+//       body: showStudents
+//           ? FutureBuilder<QuerySnapshot>(
+//         future: (selectedClass == '11th' || selectedClass == '12th')
+//             ? firestore
+//             .collection('students')
+//             .where('CLASS', isEqualTo: selectedClass)
+//             .where('SUBJECTS', arrayContains: selectedSubject)
+//             .get()
+//             : firestore
+//             .collection('students')
+//             .where('CLASS', isEqualTo: selectedClass)
+//             .get(),
+//         builder: (context, snapshot) {
+//           if (!snapshot.hasData) {
+//             return const Center(
+//               child: CircularProgressIndicator(color: Colors.redAccent),
+//             );
+//           }
+//
+//           final students = snapshot.data!.docs;
+//           if (students.isEmpty) {
+//             return const Center(
+//               child: Text("No students found", style: TextStyle(color: Colors.white70)),
+//             );
+//           }
+//
+//           return Column(
+//             children: [
+//               Expanded(
+//                 child: ListView.builder(
+//                   itemCount: students.length,
+//                   itemBuilder: (context, index) {
+//                     final student = students[index];
+//                     final uid = student.id;
+//                     final name = student['NAME'];
+//                     final isPresent = attendance[uid];
+//
+//                     return Card(
+//                       color: Colors.grey[900],
+//                       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+//                       child: ListTile(
+//                         title: Text(name, style: const TextStyle(color: Colors.white)),
+//                         subtitle: Row(
+//                           mainAxisAlignment: MainAxisAlignment.end,
+//                           children: [
+//                             ElevatedButton(
+//                               style: ElevatedButton.styleFrom(
+//                                 backgroundColor: isPresent == true
+//                                     ? Colors.green
+//                                     : Colors.grey[800],
+//                               ),
+//                               onPressed: () {
+//                                 setState(() {
+//                                   attendance[uid] = true;
+//                                 });
+//                               },
+//                               child: const Text("Present"),
+//                             ),
+//                             const SizedBox(width: 8),
+//                             ElevatedButton(
+//                               style: ElevatedButton.styleFrom(
+//                                 backgroundColor: isPresent == false
+//                                     ? Colors.red
+//                                     : Colors.grey[800],
+//                               ),
+//                               onPressed: () {
+//                                 setState(() {
+//                                   attendance[uid] = false;
+//                                 });
+//                               },
+//                               child: const Text("Absent"),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     );
+//                   },
+//                 ),
+//               ),
+//               Padding(
+//                 padding: const EdgeInsets.all(12.0),
+//                 child: ElevatedButton.icon(
+//                   onPressed: () async {
+//                     await _saveAttendance(today);
+//                     ScaffoldMessenger.of(context).showSnackBar(
+//                       const SnackBar(content: Text("Attendance saved to Firestore")),
+//                     );
+//                   },
+//                   icon: const Icon(Icons.save),
+//                   label: const Text("Save Attendance"),
+//                   style: ElevatedButton.styleFrom(
+//                     backgroundColor: Colors.redAccent,
+//                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           );
+//         },
+//       )
+//           : Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             DropdownButton<String>(
+//               value: selectedClass,
+//               dropdownColor: Colors.grey[900],
+//               style: const TextStyle(color: Colors.white, fontSize: 18),
+//               items: ['9', '10', '11th', '12th'].map((classValue) {
+//                 return DropdownMenuItem<String>(
+//                   value: classValue,
+//                   child: Text('Class $classValue'),
+//                 );
+//               }).toList(),
+//               onChanged: (value) {
+//                 setState(() {
+//                   selectedClass = value!;
+//                   selectedSubject = '';
+//                   showStudents = selectedClass == '9' || selectedClass == '10';
+//                 });
+//               },
+//             ),
+//             const SizedBox(height: 20),
+//             if (selectedClass == '11th' || selectedClass == '12th') ...[
+//               const Text("Select Subject",
+//                   style: TextStyle(color: Colors.white, fontSize: 18)),
+//               Wrap(
+//                 spacing: 10,
+//                 children: [
+//                   'Physics',
+//                   'Chemistry',
+//                   'Biology',
+//                   'Accounts',
+//                   'Economics',
+//                   'Maths'
+//                 ].map((subject) => ElevatedButton(
+//                   onPressed: () {
+//                     setState(() {
+//                       selectedSubject = subject;
+//                       showStudents = true;
+//                     });
+//                   },
+//                   style: ElevatedButton.styleFrom(
+//                     backgroundColor: Colors.blueGrey,
+//                     foregroundColor: Colors.white,
+//                   ),
+//                   child: Text(subject),
+//                 )).toList(),
+//               ),
+//             ],
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,7 +260,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   bool showStudents = false;
   String selectedClass = '9';
   String selectedSubject = '';
-
   int totalPresent = 0;
   int totalAbsent = 0;
 
@@ -32,7 +276,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         'status': present ? 'Present' : 'Absent',
       };
 
-      // Add subject only for 11th and 12th
       if (selectedClass == '11th' || selectedClass == '12th') {
         attendanceRecord['subject'] = selectedSubject;
       }
@@ -53,13 +296,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text("Attendance Summary"),
+        title: const Text("Attendance Saved"),
         content: Text(
-          "✅ Saved for Class $selectedClass\n"
+          "Class: $selectedClass\n"
               "${(selectedClass == '11th' || selectedClass == '12th') ? "Subject: $selectedSubject\n" : ""}"
-              "\nTotal Students: ${attendance.length}\n"
-              "Present: $totalPresent\n"
-              "Absent: $totalAbsent",
+              "\nTotal: ${attendance.length}\nPresent: $totalPresent\nAbsent: $totalAbsent",
         ),
         actions: [
           TextButton(
@@ -74,170 +315,266 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: const Text(
           "Attendance",
-          style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        elevation: 2,
+        foregroundColor: Colors.black,
         centerTitle: true,
       ),
-      body: showStudents
-          ? FutureBuilder<QuerySnapshot>(
-        future: (selectedClass == '11th' || selectedClass == '12th')
-            ? firestore
-            .collection('students')
-            .where('CLASS', isEqualTo: selectedClass)
-            .where('SUBJECTS', arrayContains: selectedSubject)
-            .get()
-            : firestore
-            .collection('students')
-            .where('CLASS', isEqualTo: selectedClass)
-            .get(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(color: Colors.redAccent),
-            );
-          }
-
-          final students = snapshot.data!.docs;
-          if (students.isEmpty) {
-            return const Center(
-              child: Text("No students found", style: TextStyle(color: Colors.white70)),
-            );
-          }
-
-          return Column(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.04,
+            vertical: screenHeight * 0.015,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: students.length,
-                  itemBuilder: (context, index) {
-                    final student = students[index];
-                    final uid = student.id;
-                    final name = student['NAME'];
-                    final isPresent = attendance[uid];
-
-                    return Card(
-                      color: Colors.grey[900],
-                      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      child: ListTile(
-                        title: Text(name, style: const TextStyle(color: Colors.white)),
-                        subtitle: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: isPresent == true
-                                    ? Colors.green
-                                    : Colors.grey[800],
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  attendance[uid] = true;
-                                });
-                              },
-                              child: const Text("Present"),
-                            ),
-                            const SizedBox(width: 8),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: isPresent == false
-                                    ? Colors.red
-                                    : Colors.grey[800],
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  attendance[uid] = false;
-                                });
-                              },
-                              child: const Text("Absent"),
-                            ),
-                          ],
-                        ),
-                      ),
+              // --- Class Dropdown ---
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: DropdownButton<String>(
+                  value: selectedClass,
+                  isExpanded: true,
+                  underline: const SizedBox(),
+                  style: const TextStyle(color: Colors.black, fontSize: 16),
+                  items: ['9', '10', '11th', '12th'].map((classValue) {
+                    return DropdownMenuItem<String>(
+                      value: classValue,
+                      child: Text('Class $classValue'),
                     );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedClass = value!;
+                      selectedSubject = '';
+                      showStudents = selectedClass == '9' || selectedClass == '10';
+                    });
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
+
+              SizedBox(height: screenHeight * 0.02),
+
+              // --- Subject Buttons for 11th & 12th ---
+              if (selectedClass == '11th' || selectedClass == '12th') ...[
+                const Text("Select Subject",
+                    style: TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w500)),
+                SizedBox(height: screenHeight * 0.01),
+                Wrap(
+                  spacing: 10,
+                  children: [
+                    'Physics',
+                    'Chemistry',
+                    'Biology',
+                    'Accounts',
+                    'Economics',
+                    'Maths'
+                  ].map((subject) {
+                    final isSelected = selectedSubject == subject;
+                    return ChoiceChip(
+                      label: Text(subject),
+                      selected: isSelected,
+                      selectedColor: Colors.redAccent.shade100,
+                      onSelected: (_) {
+                        setState(() {
+                          selectedSubject = subject;
+                          showStudents = true;
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: screenHeight * 0.02),
+              ],
+
+              // --- Student List ---
+              Expanded(
+                child: showStudents
+                    ? FutureBuilder<QuerySnapshot>(
+                  future: (selectedClass == '11th' ||
+                      selectedClass == '12th')
+                      ? firestore
+                      .collection('students')
+                      .where('CLASS', isEqualTo: selectedClass)
+                      .where('SUBJECTS',
+                      arrayContains: selectedSubject)
+                      .get()
+                      : firestore
+                      .collection('students')
+                      .where('CLASS', isEqualTo: selectedClass)
+                      .get(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                          child: CircularProgressIndicator());
+                    }
+
+                    final students = snapshot.data!.docs;
+                    if (students.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          "No students found",
+                          style: TextStyle(color: Colors.black54),
+                        ),
+                      );
+                    }
+
+                    return ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      padding:
+                      EdgeInsets.only(bottom: screenHeight * 0.08),
+                      itemCount: students.length,
+                      itemBuilder: (context, index) {
+                        final student = students[index];
+                        final uid = student.id;
+                        final name = student['NAME'];
+                        final isPresent = attendance[uid];
+
+                        return Card(
+                          elevation: 3,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 6, horizontal: 4),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 10),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage:
+                                  const AssetImage('assets/dpprofile.png'),
+                                  radius: screenWidth * 0.06,
+                                ),
+                                SizedBox(width: screenWidth * 0.04),
+                                Expanded(
+                                  child: Text(
+                                    name,
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: isPresent == true
+                                            ? Colors.green
+                                            : Colors.grey[300],
+                                        foregroundColor: isPresent == true
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          attendance[uid] = true;
+                                        });
+                                      },
+                                      child: const Text("Present"),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: isPresent == false
+                                            ? Colors.redAccent
+                                            : Colors.grey[300],
+                                        foregroundColor: isPresent == false
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          attendance[uid] = false;
+                                        });
+                                      },
+                                      child: const Text("Absent"),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                )
+                    : const Center(
+                  child: Text(
+                    "Select class and subject to view students",
+                    style: TextStyle(color: Colors.black54),
+                  ),
+                ),
+              ),
+
+              // --- Save Button ---
+              SizedBox(
+                width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () async {
+                    if (attendance.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content:
+                            Text("No students to save attendance")),
+                      );
+                      return;
+                    }
                     await _saveAttendance(today);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Attendance saved to Firestore")),
+                      const SnackBar(
+                          content: Text("Attendance saved successfully")),
                     );
                   },
                   icon: const Icon(Icons.save),
-                  label: const Text("Save Attendance"),
+                  label: const Text(
+                    "Save Attendance",
+                    style: TextStyle(fontSize: 16),
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.redAccent,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(
+                      vertical: screenHeight * 0.018,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
               ),
             ],
-          );
-        },
-      )
-          : Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DropdownButton<String>(
-              value: selectedClass,
-              dropdownColor: Colors.grey[900],
-              style: const TextStyle(color: Colors.white, fontSize: 18),
-              items: ['9', '10', '11th', '12th'].map((classValue) {
-                return DropdownMenuItem<String>(
-                  value: classValue,
-                  child: Text('Class $classValue'),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedClass = value!;
-                  selectedSubject = '';
-                  showStudents = selectedClass == '9' || selectedClass == '10';
-                });
-              },
-            ),
-            const SizedBox(height: 20),
-            if (selectedClass == '11th' || selectedClass == '12th') ...[
-              const Text("Select Subject",
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
-              Wrap(
-                spacing: 10,
-                children: [
-                  'Physics',
-                  'Chemistry',
-                  'Biology',
-                  'Accounts',
-                  'Economics',
-                  'Maths'
-                ].map((subject) => ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      selectedSubject = subject;
-                      showStudents = true;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueGrey,
-                    foregroundColor: Colors.white,
-                  ),
-                  child: Text(subject),
-                )).toList(),
-              ),
-            ],
-          ],
+          ),
         ),
       ),
     );
   }
 }
+
+
+
+

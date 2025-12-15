@@ -293,13 +293,15 @@ class RegisterStudentsTab extends StatelessWidget {
 class MarkAttendanceTab extends StatelessWidget {
   const MarkAttendanceTab({super.key});
   @override
-  Widget build(BuildContext context) => const AttendanceScreen();
+  Widget build(BuildContext context) => AttendanceScreen();
+      //const AttendanceScreen();
 }
 
 class UploadPdfTab extends StatelessWidget {
   const UploadPdfTab({super.key});
   @override
-  Widget build(BuildContext context) => const UploadNotesScreen();
+  Widget build(BuildContext context) =>
+     const UploadNotesScreen();
 }
 
 class FeesTab extends StatelessWidget {

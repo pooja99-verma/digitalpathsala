@@ -30,6 +30,7 @@ dependencies:
   firebase_storage: ^12.4.10
   file_picker: ^10.3.3
   url_launcher: ^6.2.1
+  share_plus: ^10.0.0
 
 dev_dependencies:
   flutter_test:
@@ -52,12 +53,12 @@ flutter:
     - assets/Class_11_Students.csv
     - assets/left12thclass_students.csv
     - assets/Class_12_Students.csv
-
+    - assets/dpprofile.png
 
 # Configuration for launcher icon
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/app_icon.jpeg"
+  image_path: "assets/dpprofile.png"
 
 
